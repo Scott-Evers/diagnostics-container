@@ -17,13 +17,13 @@ jobs:
       - name: "Docker Build and Publish"
         env:
           DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
-          DOCKERHUB_PWD: ${{ secrets.DOCKERHUB_PWD }}
+          DOCKERHUB_TKN: ${{ secrets.DOCKERHUB_TKN }}
         run: |
           echo "Working Directory"
           pwd
           echo "Directory Contents"
           ls -alr
           echo "Dockerhub user: ${DOCKERHUB_USER}"
-          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PWD
+          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_TKN
           docker build -t $DOCKERHUB_USER/diagnostic_tools .
           docker push $DOCKERHUB_USER/diagnostic_tools
