@@ -7,8 +7,8 @@ on:
   pull_request:
 
 jobs:
-  image_build_publish:
-    name: "Build and publish image to Dockerhub"
+  ubuntu:
+    name: "Build Ubuntu-based image"
     runs-on: ubuntu-latest
 
     steps:
@@ -25,5 +25,26 @@ jobs:
           ls -alr
           echo "Dockerhub user: ${DOCKERHUB_USER}"
           docker login -u $DOCKERHUB_USER -p $DOCKERHUB_TKN
-          docker build -t $DOCKERHUB_USER/diagnostic_tools .
+          docker build -t $DOCKERHUB_USER/diagnostic_tools:ubuntu22.10 -f ubuntu/Dockerfile .
+          docker push $DOCKERHUB_USER/diagnostic_tools
+
+  alpine:
+    name: "Build Alpine-based image"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: "Docker Build and Publish"
+        env:
+          DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
+          DOCKERHUB_TKN: ${{ secrets.DOCKERHUB_TKN }}
+        run: |
+          echo "Working Directory"
+          pwd
+          echo "Directory Contents"
+          ls -alr
+          echo "Dockerhub user: ${DOCKERHUB_USER}"
+          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_TKN
+          docker build -t $DOCKERHUB_USER/diagnostic_tools:alpine -f alpine/Dockerfile .
           docker push $DOCKERHUB_USER/diagnostic_tools
