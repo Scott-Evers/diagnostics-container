@@ -26,7 +26,7 @@ jobs:
           echo "Dockerhub user: ${DOCKERHUB_USER}"
           docker login -u $DOCKERHUB_USER -p $DOCKERHUB_TKN
           docker build -t $DOCKERHUB_USER/diagnostic_tools:ubuntu22.10 -f ubuntu/Dockerfile .
-          docker push $DOCKERHUB_USER/diagnostic_tools
+          docker push $DOCKERHUB_USER/diagnostic_tools:ubuntu22.10
 
   alpine:
     name: "Build Alpine-based image"
@@ -47,4 +47,4 @@ jobs:
           echo "Dockerhub user: ${DOCKERHUB_USER}"
           docker login -u $DOCKERHUB_USER -p $DOCKERHUB_TKN
           docker build -t $DOCKERHUB_USER/diagnostic_tools:alpine -f alpine/Dockerfile .
-          docker push $DOCKERHUB_USER/diagnostic_tools
+          docker push $DOCKERHUB_USER/diagnostic_tools:alpine
